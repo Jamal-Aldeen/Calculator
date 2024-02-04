@@ -1,6 +1,6 @@
 import tkinter as tk
 
-
+# Constants for styling
 LARGE_FONT_STYLE = ("Arial", 28, "bold")
 SMALL_FONT_STYLE = ("Arial", 16)
 DIGITS_FONT_STYLE = ("Arial", 24, "bold")
@@ -11,20 +11,23 @@ OFF_WHITE = "#F8FAFF"
 LIGHT_BLUE = "#CCEDFF"
 WHITE = "#FFFFFF"
 
-
 class Calculator:
     def __init__(self):
+        # Initialize the Tkinter window
         self.window = tk.Tk()
         self.window.geometry("300x450")
         self.window.resizable()
         self.window.title("calculator")
 
+        # Initialize expression variables
         self.total_expression = ""
         self.current_expression = ""
-        self.display_frame = self.create_display_frame()
 
+        # Create the display frame and labels
+        self.display_frame = self.create_display_frame()
         self.total_label, self.label = self.create_display_labels()
 
+        # Define digit buttons and arithmetic operations
         self.digits = {
             7: (1, 1), 8: (1, 2), 9: (1, 3),
             4: (2, 1), 5: (2, 2), 6: (2, 3),
@@ -32,22 +35,31 @@ class Calculator:
             0: (4, 2), '.': (4, 1)
         }
         self.operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
-        self.buttons_frame = self.create_buttons_frame()
 
+        # Create the buttons frame and configure its layout
+        self.buttons_frame = self.create_buttons_frame()
         self.buttons_frame.rowconfigure(0, weight=1)
         for x in range(1, 5):
             self.buttons_frame.rowconfigure(x, weight=1)
             self.buttons_frame.columnconfigure(x, weight=1)
+
+        # Create digit and operator buttons, and special buttons
         self.create_digit_buttons()
         self.create_operator_buttons()
         self.create_special_buttons()
+
+        # Bind key events for keyboard input
         self.bind_keys()
 
     def bind_keys(self):
+        # Bind the Enter key to evaluate the expression
         self.window.bind("<Return>", lambda event: self.evaluate())
+
+        # Bind digit keys to add digits to the expression
         for key in self.digits:
             self.window.bind(str(key), lambda event, digit=key: self.add_to_expression(digit))
 
+        # Bind operator keys to append operators to the expression
         for key in self.operations:
             self.window.bind(key, lambda event, operator=key: self.append_operator(operator))
 
@@ -160,6 +172,8 @@ class Calculator:
 
     def run(self):
         self.window.mainloop()
+
 if __name__ == "__main__":
+    # Create an instance of the Calculator class and run the GUI
     calc = Calculator()
     calc.run()
